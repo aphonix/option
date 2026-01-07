@@ -1,0 +1,42 @@
+{
+  "name": "aphonix/option",
+  "description": "A zero-dependency, type-safe implementation of Rust's Option type for PHP 7.1+. Handle optional values with elegance.",
+  "keywords": [
+    "php",
+    "rust",
+    "option",
+    "monad",
+    "type-safety",
+    "some",
+    "none"
+  ],
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "aphonix",
+      "homepage": "https://github.com/aphonix"
+    }
+  ],
+  "require": {
+    "php": ">=7.1"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^7.0 || ^8.0 || ^9.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Aphonix\\Option\\": "src/"
+    },
+    "files": [
+      "src/functions.php"
+    ]
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Aphonix\\Option\\Tests\\": "tests/"
+    }
+  },
+  "minimum-stability": "stable",
+  "prefer-stable": true
+}
