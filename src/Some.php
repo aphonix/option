@@ -48,7 +48,8 @@ class Some extends Option
 
     /**
      * Returns the contained value.
-     * * @return mixed
+     *
+     * @return mixed
      */
     public function unwrap()
     {
@@ -57,7 +58,8 @@ class Some extends Option
 
     /**
      * Returns the contained value (ignores the error message).
-     * * @param string $msg
+     *
+     * @param string $msg
      * @return mixed
      */
     public function expect(string $msg)
@@ -67,7 +69,8 @@ class Some extends Option
 
     /**
      * Returns the contained value instead of the default.
-     * * @param mixed $default
+     *
+     * @param mixed $default
      * @return mixed
      */
     public function unwrap_or($default)
@@ -77,7 +80,8 @@ class Some extends Option
 
     /**
      * Returns the contained value instead of computing the default.
-     * * @param callable $f
+     *
+     * @param callable $f
      * @return mixed
      */
     public function unwrap_or_else(callable $f)
@@ -96,7 +100,8 @@ class Some extends Option
 
     /**
      * Returns the result of applying $f to the value.
-     * * @param mixed $default
+     *
+     * @param mixed $default
      * @param callable $f
      * @return mixed
      */
@@ -107,7 +112,8 @@ class Some extends Option
 
     /**
      * Returns the result of applying $f to the value.
-     * * @param callable $default
+     *
+     * @param callable $default
      * @param callable $f
      * @return mixed
      */

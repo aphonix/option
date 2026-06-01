@@ -24,7 +24,8 @@ class None extends Option
 
     /**
      * Returns the singleton instance of None.
-     * * @return None
+     *
+     * @return None
      */
     public static function getInstance(): None
     {
@@ -60,7 +61,8 @@ class None extends Option
 
     /**
      * Panic: Throws an exception because None contains no value.
-     * * @throws Exception
+     *
+     * @throws Exception
      */
     public function unwrap()
     {
@@ -69,7 +71,8 @@ class None extends Option
 
     /**
      * Panic: Throws an exception with a custom message.
-     * * @param string $msg
+     *
+     * @param string $msg
      * @throws Exception
      */
     public function expect(string $msg)

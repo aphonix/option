@@ -1,6 +1,6 @@
 # **🦀 Rust-style Option for PHP 🐘**
 
-A lightweight, zero-dependency, and type-safe implementation of Rust's Option\<T\> for PHP 7.1+. This library brings functional programming patterns to PHP, helping you eliminate null pointer exceptions and write more expressive, safer code.
+A lightweight, zero-dependency implementation of Rust's Option<T> for PHP 7.1+. This library brings functional programming patterns to PHP, helping you handle optional values explicitly and write more expressive code.
 
 ## **✨ Features**
 
@@ -8,7 +8,7 @@ A lightweight, zero-dependency, and type-safe implementation of Rust's Option\<T
 * **Strict Rust API**: Ported core methods from the Rust Standard Library (std::option).
 * **Singleton None**: Memory-efficient implementation using a singleton for the None type.
 * **Global Helper Functions**: Idiomatic Some() and None() functions for a clean development experience.
-* **Type Safety**: Encourages explicit handling of optional values, removing hidden null reference errors.
+* **Explicit Optional Values**: Encourages callers to handle values that may be absent instead of relying on implicit null checks.
 
 ## **🚀 Installation**
 
@@ -22,23 +22,26 @@ composer require aphonix/option
 
 ### **Basic Usage**
 ```php
+<?php
 
-use function Aphonix\\Option\\{Some, None};
+use function Aphonix\Option\{Some, None};
 
-// Wrap a value that exists  
-$some \= Some("Aphonix");
+// Wrap a value that exists
+$some = Some("Aphonix");
 
-// Represent the absence of a value  
-$none \= None();
+// Represent the absence of a value
+$none = None();
 
-if ($some-\>is\_some()) {  
-    echo $some-\>unwrap(); // Output: Aphonix  
+if ($some->is_some()) {
+    echo $some->unwrap(); // Output: Aphonix
 }
 ```
 
+`Some(null)` is allowed and represents a present value whose payload is `null`. Use `None()` when the value is absent.
+
 ### **Functional Chaining**
 
-Avoid defensive if (is\_null($var)) nests with monad-style chaining:
+Avoid defensive `is_null()` nesting with monad-style chaining:
 
 ```php
 $result = Some("  hello world  ")
@@ -52,9 +55,9 @@ $result = Some("  hello world  ")
 echo $result; // Output: HELLO WORLD
 ```
 
-### **Advanced: and\_then (FlatMap)**
+### **Advanced: and_then (FlatMap)**
 
-Use and\_then when your transformation closure returns an Option itself:
+Use `and_then` when your transformation closure returns an Option itself:
 
 ```php
 function find_user($id) {
@@ -86,35 +89,35 @@ echo $name; // Output: Alice
 |--------|-------------|
 | unwrap() | Returns the inner value. Throws an Exception (Panic) if the value is None. |  
 | expect(string $msg) | Returns the inner value. Throws an Exception with a custom message if the value is None. |  
-| unwrap\_or($default) | Returns the inner value if it exists, otherwise returns the provided default. |  
-| unwrap\_or\_else(callable $f) | Returns the inner value if it exists, otherwise returns the result of the closure. |
+| `unwrap_or($default)` | Returns the inner value if it exists, otherwise returns the provided default. |
+| `unwrap_or_else(callable $f)` | Returns the inner value if it exists, otherwise returns the result of the closure. |
 
 ### **Transformation & Filtering**
 
 | Method | Description |  
 |--------|-------------|
-| map(callable $f): Option | Maps an Option\<T\> to Option\<U\> by applying a function to the contained value. |  
-| map\_or($default, callable $f) | Returns the provided default result, or applies a function to the contained value. |  
-| filter(callable $f): Option | Returns None if the option is Some and the closure returns false. |  
-| and\_then(callable $f): Option | Returns None if the option is None, otherwise calls the closure with the value and returns the result. |
+| `map(callable $f): Option` | Maps an Option<T> to Option<U> by applying a function to the contained value. |
+| `map_or($default, callable $f)` | Returns the provided default result, or applies a function to the contained value. |
+| `filter(callable $f): Option` | Returns None if the option is Some and the closure returns false. |
+| `and_then(callable $f): Option` | Returns None if the option is None, otherwise calls the closure with the value and returns the result. |
 
 ### **Logical Operations**
 
 | Method | Description |  
 |--------|-------------|
-| and(Option $optB): Option | Returns None if the option is None, otherwise returns $optB. |  
-| or(Option $optB): Option | Returns the option if it contains a value, otherwise returns $optB. |  
-| xor(Option $optB): Option | Returns Some if exactly one of self, $optB is Some, otherwise returns None. |
+| `and(Option $optB): Option` | Returns None if the option is None, otherwise returns $optB. |
+| `or(Option $optB): Option` | Returns the option if it contains a value, otherwise returns $optB. |
+| `xor(Option $optB): Option` | Returns Some if exactly one of self, $optB is Some, otherwise returns None. |
 
 ## **🧪 Testing**
 
-This project uses PHPUnit to ensure 100% logic coverage:
+This project uses PHPUnit to verify the core behavior:
 
 ```bash
-composer install  
+composer install
 ./vendor/bin/phpunit tests
 ```
 
 ## **📄 License**
 
-The MIT License (MIT). Please see the [License File](https://www.google.com/search?q=LICENSE) for more information.
+The MIT License (MIT). Please see the [License File](LICENSE) for more information.
