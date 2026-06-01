@@ -4,6 +4,9 @@ namespace Aphonix\Option\Tests;
 
 use PHPUnit\Framework\TestCase;
 use Exception;
+use Error;
+use UnexpectedValueException;
+use Aphonix\Option\Option;
 
 /**
  * Import the helper functions from our namespace.
@@ -143,5 +146,75 @@ class OptionTest extends TestCase
         $none2 = None();
         // Use assertSame to check if they are the exact same instance in memory
         $this->assertSame($none1, $none2);
+    }
+
+    /**
+     * Test from_nullable factory semantics.
+     */
+    public function testFromNullable()
+    {
+        $this->assertTrue(Option::from_nullable(null)->is_none());
+        $this->assertEquals(0, Option::from_nullable(0)->unwrap());
+        $this->assertEquals('', Option::from_nullable('')->unwrap());
+    }
+
+    /**
+     * Test Some(null) remains a present value.
+     */
+    public function testSomeCanWrapNull()
+    {
+        $some = Some(null);
+
+        $this->assertTrue($some->is_some());
+        $this->assertNull($some->unwrap());
+    }
+
+    /**
+     * Test None cannot be cloned into a separate instance.
+     */
+    public function testNoneCannotBeCloned()
+    {
+        $this->expectException(Error::class);
+
+        clone None();
+    }
+
+    /**
+     * Test None cannot be restored through unserialize().
+     */
+    public function testNoneCannotBeUnserialized()
+    {
+        $serialized = serialize(None());
+
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('Cannot unserialize None singleton; use None() instead');
+
+        unserialize($serialized);
+    }
+
+    /**
+     * Test and_then requires callbacks to return Option instances.
+     */
+    public function testAndThenRequiresOptionReturn()
+    {
+        $this->expectException(UnexpectedValueException::class);
+        $this->expectExceptionMessage('Option::and_then() callback must return an instance of Aphonix\Option\Option');
+
+        Some(1)->and_then(function () {
+            return 2;
+        });
+    }
+
+    /**
+     * Test or_else requires callbacks to return Option instances.
+     */
+    public function testOrElseRequiresOptionReturn()
+    {
+        $this->expectException(UnexpectedValueException::class);
+        $this->expectExceptionMessage('Option::or_else() callback must return an instance of Aphonix\Option\Option');
+
+        None()->or_else(function () {
+            return 2;
+        });
     }
 }

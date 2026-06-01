@@ -31,6 +31,38 @@ abstract class Option
     }
 
     /**
+     * Creates None when the value is null, otherwise wraps it in Some.
+     *
+     * @param mixed $value The value to wrap.
+     * @return Option
+     */
+    public static function from_nullable($value): Option
+    {
+        return $value === null ? self::none() : self::some($value);
+    }
+
+    /**
+     * Ensures callbacks that promise an Option return one.
+     *
+     * @param mixed $value The callback result.
+     * @param string $method The Option method that invoked the callback.
+     * @return Option
+     * @throws \UnexpectedValueException
+     */
+    protected static function ensure_option($value, string $method): Option
+    {
+        if (!$value instanceof Option) {
+            throw new \UnexpectedValueException(sprintf(
+                '%s callback must return an instance of %s',
+                $method,
+                Option::class
+            ));
+        }
+
+        return $value;
+    }
+
+    /**
      * Returns true if the option is a Some value.
      *
      * @return bool
