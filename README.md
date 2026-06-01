@@ -25,12 +25,16 @@ composer require aphonix/option
 <?php
 
 use function Aphonix\Option\{Some, None};
+use Aphonix\Option\Option;
 
 // Wrap a value that exists
 $some = Some("Aphonix");
 
 // Represent the absence of a value
 $none = None();
+
+// Convert a nullable value into Some or None
+$fromNullable = Option::from_nullable(null);
 
 if ($some->is_some()) {
     echo $some->unwrap(); // Output: Aphonix
@@ -74,6 +78,14 @@ echo $name; // Output: Alice
 ```
 
 ## **🛠 API Reference**
+
+### **Creation Methods**
+
+| Method | Description |
+|--------|-------------|
+| `Option::some($value): Option` | Wraps a value in `Some`, including `null`. |
+| `Option::none(): Option` | Returns the shared `None` instance. |
+| `Option::from_nullable($value): Option` | Returns `None` for `null`, otherwise returns `Some($value)`. |
 
 ### **Check Methods**
 

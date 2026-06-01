@@ -23,6 +23,23 @@ class None extends Option
     }
 
     /**
+     * Prevent cloning the singleton instance.
+     */
+    private function __clone()
+    {
+    }
+
+    /**
+     * Prevent restoring a separate None instance through unserialize().
+     *
+     * @throws Exception
+     */
+    public function __wakeup()
+    {
+        throw new Exception('Cannot unserialize None singleton; use None() instead');
+    }
+
+    /**
      * Returns the singleton instance of None.
      *
      * @return None
@@ -160,7 +177,7 @@ class None extends Option
     public function or_else(callable $f): Option
     {
         // If self is None, compute the alternative option via closure
-        return $f();
+        return self::ensure_option($f(), 'Option::or_else()');
     }
 
     /**

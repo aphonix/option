@@ -145,7 +145,7 @@ class Some extends Option
     public function and_then(callable $f): Option
     {
         // Monadic bind: calls the closure which must return another Option
-        return $f($this->value);
+        return self::ensure_option($f($this->value), 'Option::and_then()');
     }
 
     /**
